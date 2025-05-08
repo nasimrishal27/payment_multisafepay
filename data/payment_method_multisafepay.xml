@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="payment_method_multisafepay" model="payment.method">
+        <field name="name">MultiSafePay</field>
+        <field name="code">multisafepay</field>
+        <field name="sequence">20</field>
+        <field name="active">False</field>
+        <field name="image" type="base64" file="payment_multisafepay/static/description/icon.png"/>
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+    </record>
+    <record id="account_payment_method_multisafepay_in" model="account.payment.method">
+        <field name="name">MultiSafePay</field>
+        <field name="code">multisafepay</field>
+        <field name="payment_type">inbound</field>
+    </record>
+    <record id="account_payment_method_multisafepay_out" model="account.payment.method">
+        <field name="name">MultiSafePay</field>
+        <field name="code">multisafepay</field>
+        <field name="payment_type">outbound</field>
+    </record>
+</odoo>
