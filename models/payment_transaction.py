@@ -13,7 +13,7 @@ class PaymentTransaction(models.Model):
     _inherit = 'payment.transaction'
 
     def _get_specific_rendering_values(self, processing_values):
-        """ Override of payment to return MultiSafepay-specific rendering values."""
+        """ Override of payment to return MultiSafePay-specific rendering values."""
         res = super()._get_specific_rendering_values(processing_values)
         if self.provider_code != 'multisafepay':
             return res
@@ -28,17 +28,17 @@ class PaymentTransaction(models.Model):
         base_url = self.provider_id.get_base_url()
         redirect_url = urls.url_join(base_url, MultisafepayController._redirect_url)
         partner_first_name, partner_last_name = payment_utils.split_partner_name(self.partner_name)
-        decimal_places = CURRENCY_MINOR_UNITS.get(self.currency_id.name,
-                                                  self.currency_id.decimal_places)
-        amount = float(f"{self.amount:.{decimal_places}f}")
+        print(self.reference)
+
         return {
             "type": "redirect",
             "order_id": self.reference,
             "gateway": "",
-            "currency": self.currency_id.name,
-            "amount": 10.00,
-            "description": f'{self.company_id.name}: {self.reference}',
+            "currency": "EUR",
+            "amount": self.amount,
+            "description": self.reference,
             "payment_options": {
+                "notification_url": "https://www.example.com/client/notification?type=notification",
                 "notification_method": "POST",
                 "redirect_url": redirect_url,
                 "cancel_url": "https://www.example.com/client/notification?type=cancel",
@@ -46,7 +46,7 @@ class PaymentTransaction(models.Model):
             },
             "customer": {
                 "locale": "en_US",
-                "ip_address": "10.0.20.133",
+                "ip_address": "10.0.20.93",
                 "first_name": partner_first_name,
                 "last_name": partner_last_name,
                 "company_name": self.provider_id.company_id.name,
@@ -73,7 +73,7 @@ class PaymentTransaction(models.Model):
         return tx
 
     def _process_notification_data(self, notification_data):
-        """ Override of payment to process the transaction based on MultiSafepay data."""
+        """ Override of payment to process the transaction based on MultiSafePay data."""
         res = super()._process_notification_data(notification_data)
         if self.provider_code != 'multisafepay':
             return res
