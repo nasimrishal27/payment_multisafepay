@@ -6,7 +6,6 @@ from odoo.addons.payment import utils as payment_utils
 
 class MultisafepayController(http.Controller):
     _redirect_url = '/payment/multisafepay/redirect'
-    _webhook_url = '/payment/multisafepay/webhook/'
 
     @http.route(_redirect_url, type='http', auth='public', methods=['GET', 'POST'], csrf=False,
                 save_session=False)

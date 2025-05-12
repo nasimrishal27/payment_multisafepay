@@ -4,8 +4,6 @@ from werkzeug import urls
 from odoo.addons.payment_multisafepay.controller.main import MultisafepayController
 from odoo import _, models
 from odoo.exceptions import ValidationError
-from odoo.addons.payment.const import CURRENCY_MINOR_UNITS
-from odoo.addons.payment_multisafepay import const
 from odoo.addons.payment import utils as payment_utils
 
 
@@ -28,7 +26,6 @@ class PaymentTransaction(models.Model):
         base_url = self.provider_id.get_base_url()
         redirect_url = urls.url_join(base_url, MultisafepayController._redirect_url)
         partner_first_name, partner_last_name = payment_utils.split_partner_name(self.partner_name)
-        print(self.reference)
 
         return {
             "type": "redirect",
